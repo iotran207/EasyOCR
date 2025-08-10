@@ -30,3 +30,17 @@ RUN mkdir "$service_home" \
 RUN cd "$service_home" \
     && python setup.py build_ext --inplace -j 4 \
     && python -m pip install -e .
+
+RUN cd "$service_home" \
+    && python setup.py build_ext --inplace -j 4 \
+    && python -m pip install -e .
+
+ADD ./recognition.py /home/ubuntu/
+WORKDIR /home/ubuntu/
+
+RUN pip install Flask
+
+EXPOSE 2000
+RUN alias python=python3
+ENTRYPOINT ["python"]
+CMD ["/home/ubuntu/recognition.py"]
